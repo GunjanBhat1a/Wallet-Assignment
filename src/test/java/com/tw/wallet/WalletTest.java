@@ -3,29 +3,18 @@ package com.tw.wallet;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WalletTest {
 
     @Test
     void shouldNotThrowExceptionForPuttingValidAmountInWallet() {
-        Rupee amount = new Rupee(30.0);
-        Dollar amount1 = new Dollar(2.0);
+        Money fiftyRupee = new Money(50, CurrencyType.RUPEE);
+        Money twoDollar = new Money(2, CurrencyType.DOLLAR);
 
         Wallet wallet = new Wallet();
 
-        assertDoesNotThrow(() -> wallet.add(amount));
-        assertDoesNotThrow(() -> wallet.add(amount1));
-    }
+        assertDoesNotThrow(() -> wallet.deposit(fiftyRupee));
+        assertDoesNotThrow(() -> wallet.deposit(twoDollar));
 
-    @Test
-    void shouldThrowExceptionIfValidAmountIsNotAdded() {
-        Rupee amount = new Rupee(-17.0);
-        Dollar amount1 = new Dollar(0.0);
-
-        Wallet wallet = new Wallet();
-
-        assertThrows(NotAValidAmountException.class, () -> wallet.add(amount));
-        assertThrows(NotAValidAmountException.class, () -> wallet.add(amount1));
     }
 }
