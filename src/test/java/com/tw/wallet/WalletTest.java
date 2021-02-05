@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class WalletTest {
 
     @Test
-    void shouldNotThrowExceptionForPuttingMoneyInWallet() {
+    void shouldNotThrowExceptionForPuttingValidAmountInWallet() {
         Rupee amount = new Rupee(30.0);
         Dollar amount1 = new Dollar(2.0);
 
@@ -21,7 +21,7 @@ public class WalletTest {
     @Test
     void shouldThrowExceptionIfValidAmountIsNotAdded() {
         Rupee amount = new Rupee(-17.0);
-        Dollar amount1 = new Dollar((double) 0);
+        Dollar amount1 = new Dollar(0.0);
 
         Wallet wallet = new Wallet();
 

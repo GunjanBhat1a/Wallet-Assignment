@@ -15,8 +15,9 @@ public class Wallet {
     public void add(Currency currency) throws NotAValidAmountException {
         if (currency.amount <= 0) throw new NotAValidAmountException("Not A Valid Amount");
 
-        wallet.add(currency);
+       wallet.add(currency);
     }
 
-
 }
+
+

@@ -2,7 +2,7 @@ package com.tw.wallet;
 
 import java.util.List;
 
-public class Dollar extends Currency {
+public class Dollar extends  Currency{
 
     private double totalAmount;
 

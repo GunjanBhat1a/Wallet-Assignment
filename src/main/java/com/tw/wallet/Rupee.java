@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Rupee extends Currency {
 
-
     private double totalAmount;
 
     public Rupee(Double rupeeValue) {
