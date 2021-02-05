@@ -1,30 +1,30 @@
 package com.tw.wallet;
 
 public class Money {
-    private final CurrencyType currencyType;
-    private final double amount;
+    final Currency currency;
+    final double amount;
 
-    public Money(double amount, CurrencyType currencyType) {
+    public Money(double amount, Currency currency) {
         this.amount = amount;
-        this.currencyType = currencyType;
+        this.currency = currency;
     }
 
-    public Money convertToRupee() {
-        return new Money(this.amount * 74.5, CurrencyType.RUPEE);
+    public double convertToRupee() {
+        return this.amount * 74.5;
     }
 
-    public Money convertToDollar() {
-        return new Money(this.amount / 74.5, CurrencyType.DOLLAR);
+    public double convertToDollar() {
+        return this.amount / 74.5;
     }
 
     public Money add(Money money) throws NotAValidAmountException {
         if (money.amount <= 0) throw new NotAValidAmountException("Not a valid amount");
         Money totalAmount;
 
-        if (money.currencyType == CurrencyType.DOLLAR) {
-            totalAmount = new Money(this.amount + money.convertToRupee().amount, this.currencyType);
+        if (money.currency == Currency.DOLLAR) {
+            totalAmount = new Money(this.amount + money.convertToRupee(), this.currency);
         } else
-            totalAmount = new Money(this.amount + money.amount, this.currencyType);
+            totalAmount = new Money(this.amount + money.amount, this.currency);
         return totalAmount;
 
     }
@@ -32,14 +32,14 @@ public class Money {
     public Money retrieve(Money money) throws NotAValidAmountException, NotEnoughBalanceException {
         if (money.amount <= 0) throw new NotAValidAmountException("Not a valid amount");
 
-        if (money.currencyType == CurrencyType.DOLLAR) {
-            Money moneyInRupees = money.convertToRupee();
-            if (this.amount < moneyInRupees.amount)
+        if (money.currency == Currency.DOLLAR) {
+           double moneyInRupees = money.convertToRupee();
+            if (this.amount < moneyInRupees)
                 throw new NotEnoughBalanceException("Not Enough Balance");
             else
-                return new Money(this.amount - moneyInRupees.amount, this.currencyType);
+                return new Money(this.amount - moneyInRupees, this.currency);
         } else
-            return new Money(this.amount - money.amount, this.currencyType);
+            return new Money(this.amount - money.amount, this.currency);
 
     }
 }

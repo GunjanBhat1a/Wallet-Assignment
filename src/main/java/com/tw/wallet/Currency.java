@@ -1,6 +1,6 @@
 package com.tw.wallet;
 
-public enum CurrencyType {
+public enum Currency {
     RUPEE,
     DOLLAR
 }

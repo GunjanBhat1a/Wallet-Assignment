@@ -2,15 +2,14 @@ package com.tw.wallet;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WalletTest {
 
     @Test
     void shouldNotThrowExceptionForPuttingValidAmountInWallet() {
-        Money fiftyRupee = new Money(50, CurrencyType.RUPEE);
-        Money twoDollar = new Money(2, CurrencyType.DOLLAR);
+        Money fiftyRupee = new Money(50, Currency.RUPEE);
+        Money twoDollar = new Money(2, Currency.DOLLAR);
 
         Wallet wallet = new Wallet();
 
@@ -21,8 +20,8 @@ public class WalletTest {
 
     @Test
     void shouldThrowExceptionForPuttingInValidAmountInWallet() throws NotAValidAmountException {
-        Money fiftyRupee = new Money(-50, CurrencyType.RUPEE);
-        Money oneDollar = new Money(1, CurrencyType.DOLLAR);
+        Money fiftyRupee = new Money(-50, Currency.RUPEE);
+        Money oneDollar = new Money(1, Currency.DOLLAR);
 
         Wallet wallet = new Wallet();
         wallet.deposit(oneDollar);
@@ -33,8 +32,8 @@ public class WalletTest {
 
     @Test
     void shouldNotThrowExceptionIfValidAmountIsRetrieved() throws NotAValidAmountException {
-        Money hundredRupee = new Money(100, CurrencyType.RUPEE);
-        Money oneDollar = new Money(1, CurrencyType.DOLLAR);
+        Money hundredRupee = new Money(100, Currency.RUPEE);
+        Money oneDollar = new Money(1, Currency.DOLLAR);
 
         Wallet wallet = new Wallet();
         wallet.deposit(hundredRupee);
@@ -44,8 +43,8 @@ public class WalletTest {
 
     @Test
     void shouldThrowExceptionIfInValidAmountIsRetrieved() throws NotAValidAmountException {
-        Money hundredRupee = new Money(-100, CurrencyType.RUPEE);
-        Money oneDollar = new Money(1, CurrencyType.DOLLAR);
+        Money hundredRupee = new Money(-100, Currency.RUPEE);
+        Money oneDollar = new Money(1, Currency.DOLLAR);
 
         Wallet wallet = new Wallet();
         wallet.deposit(oneDollar);
@@ -53,14 +52,31 @@ public class WalletTest {
         assertThrows(NotAValidAmountException.class, () -> wallet.withdraw(hundredRupee));
     }
 
-@Test
+    @Test
     void shouldThrowExceptionIfAmountRetrievedIsLargerThanAvailable() throws NotAValidAmountException {
-           Money fiftyRupee = new Money(50, CurrencyType.RUPEE);
-           Money twoDollar = new Money(2, CurrencyType.DOLLAR);
+        Money fiftyRupee = new Money(50, Currency.RUPEE);
+        Money twoDollar = new Money(2, Currency.DOLLAR);
 
-            Wallet wallet = new Wallet();
-            wallet.deposit(fiftyRupee);
+        Wallet wallet = new Wallet();
+        wallet.deposit(fiftyRupee);
 
-            assertThrows(NotEnoughBalanceException.class, () -> wallet.withdraw(twoDollar));
-        }
+        assertThrows(NotEnoughBalanceException.class, () -> wallet.withdraw(twoDollar));
+    }
+
+    @Test
+    void shouldReturnWalletMoneyInPreferredAmount() throws NotAValidAmountException {
+        Money oneDollar = new Money(1, Currency.DOLLAR);
+        Money twoDollar = new Money(2, Currency.DOLLAR);
+        Money fiftyRupee = new Money(50, Currency.RUPEE);
+
+        Wallet wallet = new Wallet();
+
+        wallet.deposit(oneDollar);
+        wallet.deposit(twoDollar);
+        wallet.deposit(fiftyRupee);
+
+        assertEquals(273.5, wallet.returnAmountInPreferredCurrency(Currency.RUPEE));
+        assertEquals(3.6711409395973154, wallet.returnAmountInPreferredCurrency(Currency.DOLLAR));
+    }
 }
+
