@@ -75,8 +75,8 @@ public class WalletTest {
         wallet.deposit(twoDollar);
         wallet.deposit(fiftyRupee);
 
-        assertEquals(273.5, wallet.returnAmountInPreferredCurrency(Currency.RUPEE));
-        assertEquals(3.6711409395973154, wallet.returnAmountInPreferredCurrency(Currency.DOLLAR));
+        assertEquals(274.5, wallet.returnAmountInPreferredCurrency(Currency.RUPEE));
+        assertEquals(3.684563758389262, wallet.returnAmountInPreferredCurrency(Currency.DOLLAR));
     }
 }
 

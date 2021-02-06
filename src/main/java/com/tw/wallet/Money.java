@@ -18,7 +18,7 @@ public class Money {
     }
 
     public Money add(Money money) throws NotAValidAmountException {
-        if (money.amount <= 0) throw new NotAValidAmountException("Not a valid amount");
+        if (money.amount <= 0 || this.amount < 0) throw new NotAValidAmountException("Not a valid amount");
         Money totalAmount;
 
         if (money.currency == Currency.DOLLAR) {

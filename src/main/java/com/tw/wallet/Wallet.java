@@ -5,11 +5,12 @@ public class Wallet {
 
     public Money totalBalance;
     public Wallet() {
-    totalBalance = new Money(0, Currency.RUPEE);
+
     }
 
     public void deposit(Money money) throws NotAValidAmountException {
-
+        if(totalBalance == null)
+        totalBalance = money;
         totalBalance = totalBalance.add(money);
     }
 
