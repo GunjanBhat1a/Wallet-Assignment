@@ -64,7 +64,7 @@ public class WalletTest {
     }
 
     @Test
-    void shouldReturnWalletMoneyInPreferredAmount() throws NotAValidAmountException {
+    void shouldReturnWalletMoneyInPreferredAmount() throws NotAValidAmountException, NotEnoughBalanceException {
         Money oneDollar = new Money(1, Currency.DOLLAR);
         Money twoDollar = new Money(2, Currency.DOLLAR);
         Money fiftyRupee = new Money(50, Currency.RUPEE);
@@ -75,8 +75,8 @@ public class WalletTest {
         wallet.deposit(twoDollar);
         wallet.deposit(fiftyRupee);
 
-        assertEquals(274.5, wallet.returnAmountInPreferredCurrency(Currency.RUPEE));
-        assertEquals(3.684563758389262, wallet.returnAmountInPreferredCurrency(Currency.DOLLAR));
+        assertEquals(273.5, wallet.returnAmountInPreferredCurrency(Currency.RUPEE), 0.0000000001);
+        assertEquals(3.6711409395973154, wallet.returnAmountInPreferredCurrency(Currency.DOLLAR), 0.0000000001);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.tw.wallet;
 
+import java.util.Objects;
+
 public class Money {
     final Currency currency;
     final double amount;
@@ -9,22 +11,16 @@ public class Money {
         this.currency = currency;
     }
 
-    public double convertToRupee() {
-        return this.amount * 74.5;
-    }
-
-    public double convertToDollar() {
-        return this.amount / 74.5;
-    }
-
     public Money add(Money money) throws NotAValidAmountException {
         if (money.amount <= 0 || this.amount < 0) throw new NotAValidAmountException("Not a valid amount");
+
         Money totalAmount;
 
-        if (money.currency == Currency.DOLLAR) {
-            totalAmount = new Money(this.amount + money.convertToRupee(), this.currency);
+        if (this.currency != money.currency) {
+            totalAmount = new Money(this.amount + this.currency.convertTo(money), this.currency);
         } else
             totalAmount = new Money(this.amount + money.amount, this.currency);
+
         return totalAmount;
 
     }
@@ -32,14 +28,29 @@ public class Money {
     public Money retrieve(Money money) throws NotAValidAmountException, NotEnoughBalanceException {
         if (money.amount <= 0) throw new NotAValidAmountException("Not a valid amount");
 
-        if (money.currency == Currency.DOLLAR) {
-           double moneyInRupees = money.convertToRupee();
-            if (this.amount < moneyInRupees)
+        if (this.currency != money.currency) {
+            double convertedMoney = this.currency.convertTo(money);
+            if (this.amount < convertedMoney)
                 throw new NotEnoughBalanceException("Not Enough Balance");
             else
-                return new Money(this.amount - moneyInRupees, this.currency);
+                return new Money(this.amount - convertedMoney, this.currency);
         } else
             return new Money(this.amount - money.amount, this.currency);
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Money money = (Money) o;
+        return this.amount == money.amount && this.currency == money.currency;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, currency);
+    }
+
+
 }
